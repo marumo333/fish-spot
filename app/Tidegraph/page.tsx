@@ -7,8 +7,25 @@ export default function Tidegraph(){
     const [month,setMonth] = useState(1)
     const [day,setDay] = useState(1)
     const [data,setData] = useState<any>(null)//取得データを定義
+    const [pchc,setPchc] =useState<any>({})//港のデータ
+    const [pcCodes,setPcCodes] = useState<any>({})//都道府県データ
+    const [calender,setCalender] =useState({})//カレンダーデータ
 
-    
+    useEffect(()=>{
+        Promise.all([
+            fetch("./pc_hc.json").then(res=>res.json()),
+            fetch("./pc_code.json").then(res=>res.json()),
+            fetch("calender.json").then(res=>res.json())
+        ]).then(([hc,code,cal])=>{
+            setPchc(hc)
+            setPcCodes(code)
+            setCalender(cal)
+        })
+        .catch(err=>
+            console.error("データの取得に失敗しました",err)
+        )
+    },[])
+    const get
     return(
         <>
 
