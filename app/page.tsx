@@ -7,7 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 const navigation = [
-  { name: "Tidegraph", href: "#" },
+  { name: "Tidegraph", href: "Tidegraph" },
   { name: "Weather", href: "#" },
   { name: "Search", href: "#" },
   { name: "Mypage", href: "#" },
