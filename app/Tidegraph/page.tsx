@@ -25,10 +25,16 @@ export default function Tidegraph(){
             console.error("データの取得に失敗しました",err)
         )
     },[])
-    const get
+    const getTide=async()=>{
+        const pc = pcCodes[pref]
+        const hc = pchc[pref][port]
+        const res = await fetch(`https://api.tide736.net/get_tide.php?&pc=${pc}&hc=${hc}&yr=${year}&mh=${month}&dy=${day}&rg=day`)
+        const json = await res.json()
+        setData(json)
+    }
     return(
         <>
-
+        <button onClick={getTide}>情報を取得</button>
         </>
     )
 }
