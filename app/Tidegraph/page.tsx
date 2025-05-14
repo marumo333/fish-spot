@@ -29,7 +29,7 @@ export default function Tidegraph() {
     const pc = pcCodes[pref];
     const hc = pchc[pref][port];
     const res = await fetch(
-      `https://api.tide736.net/get_tide.php?&pc=${pc}&hc=${hc}&yr=${year}&mh=${month}&dy=${day}&rg=day`
+      `https://api.tide736.net/get_tide.php?&pc=${pc}&hc=${hc}&yr=${year}&mn=${month}&dy=${day}&rg=day`
     );
     const json = await res.json();
     setData(json);
