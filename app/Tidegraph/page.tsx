@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import { useState, useEffect } from "react";
 export default function Tidegraph() {
@@ -63,7 +64,7 @@ export default function Tidegraph() {
 
         <div className="flex gap-2">
           <select value={year} onChange={(e) => setYear(Number(e.target.value))}>
-            <option value={2023}>2023</option>
+            <option value={2025}>2025</option>
           </select>
           <select value={month} onChange={(e) => setMonth(Number(e.target.value))}>
             {[...Array(12)].map((_, i) => <option key={i+1} value={i+1}>{i+1}月</option>)}
