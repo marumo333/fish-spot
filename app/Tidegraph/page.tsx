@@ -42,62 +42,108 @@ export default function Tidegraph() {
   };
   return (
     <>
-      <main className="p-8">
-      <h1 className="text-2xl font-bold mb-4">潮汐情報表示</h1>
+      <main className="p-8 max-w-2xl mx-auto">
+  <h1 className="text-3xl font-bold mb-6 text-center">潮汐情報表示</h1>
 
-      <div className="space-y-4">
-        <div>
-          <label htmlFor="prefecture">都道府県:</label>
-          <select id="prefecture" name="prefecture" value={pref} onChange={(e) => setPref(e.target.value)}>
-            <option value="">--選択--</option>
-            {Object.keys(pchc).map((p) => (
-              <option key={p}>{p}</option>
-            ))}
-          </select>
-        </div>
+  <div className="space-y-6 bg-white p-6 rounded shadow-md">
+    <div className="flex flex-col gap-2">
+      <label htmlFor="prefecture" className="font-medium">都道府県:</label>
+      <select
+        id="prefecture"
+        name="prefecture"
+        value={pref}
+        onChange={(e) => setPref(e.target.value)}
+        className="border rounded px-3 py-2"
+      >
+        <option value="">--選択--</option>
+        {Object.keys(pchc).map((p) => (
+          <option key={p}>{p}</option>
+        ))}
+      </select>
+    </div>
 
-        {pref && (
-          <div>
-            <label htmlFor="port">港:</label>
-            <select id="port" name="port" value={port} onChange={(e) => setPort(e.target.value)}>
-              <option value="">--選択--</option>
-              {Object.keys(pchc[pref]).map((h) => (
-                <option key={h}>{h}</option>
-              ))}
-            </select>
-          </div>
-        )}
-
-        <div className="flex gap-2">
-          <select id="year" name="year" value={year} onChange={(e) => setYear(Number(e.target.value))}>
-            <option value={2025}>2025</option>
-          </select>
-          <select name="month" id="month" value={month} onChange={(e) => setMonth(Number(e.target.value))}>
-            {[...Array(12)].map((_, i) => <option key={i+1} value={i+1}>{i+1}月</option>)}
-          </select>
-          <select name="day" id="day" value={day} onChange={(e) => setDay(Number(e.target.value))}>
-            {(calendar[`${month}月`] || []).map((d: number) => (
-              <option key={d} value={d}>{d}日</option>
-            ))}
-          </select>
-        </div>
-
-        <button onClick={getTide} className="bg-blue-500 text-white px-4 py-2 rounded">
-          潮汐情報取得
-        </button>
-
-        {data && (
-          <div className="mt-6 border-t pt-4">
-            <h2 className="font-bold text-lg">
-              都道府県: {pref} / 港: {data.tide.port.harbor_namej}
-            </h2>
-
-            <p>潮: {data.tide.chart[`${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`].moon.title}</p>
-            {/* 以下略：満潮干潮データなどを同様に表示 */}
-          </div>
-        )}
+    {pref && (
+      <div className="flex flex-col gap-2">
+        <label htmlFor="port" className="font-medium">港:</label>
+        <select
+          id="port"
+          name="port"
+          value={port}
+          onChange={(e) => setPort(e.target.value)}
+          className="border rounded px-3 py-2"
+        >
+          <option value="">--選択--</option>
+          {Object.keys(pchc[pref]).map((h) => (
+            <option key={h}>{h}</option>
+          ))}
+        </select>
       </div>
-    </main>
+    )}
+
+    <div className="flex gap-4 items-end">
+      <div className="flex flex-col gap-1">
+        <label htmlFor="year" className="font-medium">年:</label>
+        <select
+          id="year"
+          name="year"
+          value={year}
+          onChange={(e) => setYear(Number(e.target.value))}
+          className="border rounded px-3 py-2"
+        >
+          <option value={2025}>2025</option>
+        </select>
+      </div>
+
+      <div className="flex flex-col gap-1">
+        <label htmlFor="month" className="font-medium">月:</label>
+        <select
+          id="month"
+          name="month"
+          value={month}
+          onChange={(e) => setMonth(Number(e.target.value))}
+          className="border rounded px-3 py-2"
+        >
+          {[...Array(12)].map((_, i) => (
+            <option key={i + 1} value={i + 1}>{i + 1}月</option>
+          ))}
+        </select>
+      </div>
+
+      <div className="flex flex-col gap-1">
+        <label htmlFor="day" className="font-medium">日:</label>
+        <select
+          id="day"
+          name="day"
+          value={day}
+          onChange={(e) => setDay(Number(e.target.value))}
+          className="border rounded px-3 py-2"
+        >
+          {(calendar[`${month}月`] || []).map((d) => (
+            <option key={d} value={d}>{d}日</option>
+          ))}
+        </select>
+      </div>
+    </div>
+
+    <button
+      onClick={getTide}
+      className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded shadow"
+      disabled={!pref || !port}
+    >
+      潮汐情報取得
+    </button>
+
+    {data && (
+      <div className="mt-6 p-4 bg-gray-50 rounded shadow border">
+        <h2 className="font-semibold text-lg mb-2">
+          都道府県: {pref} / 港: {data.tide.port.harbor_namej}
+        </h2>
+        <p>潮: {data.tide.chart[`${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`].moon.title}</p>
+      </div>
+    )}
+  </div>
+</main>
+
     </>
   );
 }
