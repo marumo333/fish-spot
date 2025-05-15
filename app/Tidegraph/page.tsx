@@ -1,6 +1,7 @@
 "use client"
 import React from "react";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 export default function Tidegraph() {
   const [pref, setPref] = useState(""); //県を設定
   const [port, setPort] = useState(""); //港を設定
@@ -132,7 +133,7 @@ export default function Tidegraph() {
     >
       潮汐情報取得
     </button>
-
+    <Link className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded shadow"href="/">ホーム画面に戻る</Link>
     {data && (
       <div className="mt-6 p-4 bg-gray-50 rounded shadow border">
         <h2 className="font-semibold text-lg mb-2">
