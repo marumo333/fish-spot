@@ -14,9 +14,9 @@ export default function Tidegraph() {
 
   useEffect(() => {
     Promise.all([
-      fetch("./pc_hc.json").then((res) => res.json()),
-      fetch("./pc_code.json").then((res) => res.json()),
-      fetch("calender.json").then((res) => res.json()),
+      fetch("/pc_hc.json").then((res) => res.json()),
+      fetch("/pc_code.json").then((res) => res.json()),
+      fetch("/calender.json").then((res) => res.json()),
     ])
       .then(([hc, code, cal]) => {
         setPchc(hc);
@@ -28,21 +28,27 @@ export default function Tidegraph() {
   const getTide = async () => {
     const pc = pcCodes[pref];
     const hc = pchc[pref][port];
-    const res = await fetch(
-      `https://api.tide736.net/get_tide.php?&pc=${pc}&hc=${hc}&yr=${year}&mn=${month}&dy=${day}&rg=day`
-    );
+    if(!pref){
+        console.log("所持地を選択してください")
+        return;
+    }
+    if(!port){
+        console.log("港を選択してください")
+        return;
+    }
+    const res = await fetch(`/api/tide?pc=${pc}&hc=${hc}&yr=${year}&mn=${month}&dy=${day}`)
     const json = await res.json();
     setData(json);
   };
   return (
     <>
       <main className="p-8">
-      <h1 className="text-2xl font-bold mb-4">潮汐情報表示アプリ</h1>
+      <h1 className="text-2xl font-bold mb-4">潮汐情報表示</h1>
 
       <div className="space-y-4">
         <div>
-          <label>都道府県:</label>
-          <select value={pref} onChange={(e) => setPref(e.target.value)}>
+          <label htmlFor="prefecture">都道府県:</label>
+          <select id="prefecture" name="prefecture" value={pref} onChange={(e) => setPref(e.target.value)}>
             <option value="">--選択--</option>
             {Object.keys(pchc).map((p) => (
               <option key={p}>{p}</option>
@@ -52,8 +58,8 @@ export default function Tidegraph() {
 
         {pref && (
           <div>
-            <label>港:</label>
-            <select value={port} onChange={(e) => setPort(e.target.value)}>
+            <label htmlFor="port">港:</label>
+            <select id="port" name="port" value={port} onChange={(e) => setPort(e.target.value)}>
               <option value="">--選択--</option>
               {Object.keys(pchc[pref]).map((h) => (
                 <option key={h}>{h}</option>
@@ -63,13 +69,13 @@ export default function Tidegraph() {
         )}
 
         <div className="flex gap-2">
-          <select value={year} onChange={(e) => setYear(Number(e.target.value))}>
+          <select id="year" name="year" value={year} onChange={(e) => setYear(Number(e.target.value))}>
             <option value={2025}>2025</option>
           </select>
-          <select value={month} onChange={(e) => setMonth(Number(e.target.value))}>
+          <select name="month" id="month" value={month} onChange={(e) => setMonth(Number(e.target.value))}>
             {[...Array(12)].map((_, i) => <option key={i+1} value={i+1}>{i+1}月</option>)}
           </select>
-          <select value={day} onChange={(e) => setDay(Number(e.target.value))}>
+          <select name="day" id="day" value={day} onChange={(e) => setDay(Number(e.target.value))}>
             {(calendar[`${month}月`] || []).map((d: number) => (
               <option key={d} value={d}>{d}日</option>
             ))}
