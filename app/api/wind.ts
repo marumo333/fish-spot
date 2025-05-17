@@ -12,7 +12,7 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
             lat:Number(lat),
             lon:Number(lon),
             model:"gfs",
-            parameters:["wind_u","wond_v"],
+            parameters:["wind_u","wind_v"],
             levels:["surface"],
         })
     });
