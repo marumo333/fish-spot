@@ -8,7 +8,7 @@ import Image from "next/image";
 
 const navigation = [
   { name: "Tidegraph", href: "Tidegraph" },
-  { name: "Weather", href: "#" },
+  { name: "Weather", href: "Windy" },
   { name: "Search", href: "#" },
   { name: "Mypage", href: "#" },
   { name: "Login" , href:"#"},
