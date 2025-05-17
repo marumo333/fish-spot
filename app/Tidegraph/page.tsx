@@ -2,15 +2,33 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+
+// 型定義: 必要に応じて詳細を調整してください
+type TideData = {
+  tide: {
+    port: {
+      harbor_namej: string;
+    };
+    chart: {
+      [date: string]: {
+        flood?: { time: string }[];
+        edd?: { time: string }[];
+        sun: { rise: string; set: string };
+        moon: { rise?: string; set?: string; title: string };
+      };
+    };
+  };
+};
+
 export default function Tidegraph() {
   const [pref, setPref] = useState(""); //県を設定
   const [port, setPort] = useState(""); //港を設定
   const [year, setYear] = useState(2025); //以下で年月日を設定
   const [month, setMonth] = useState(1);
   const [day, setDay] = useState(1);
-  const [data, setData] = useState<any>(null); //取得データを定義
-  const [pchc, setPchc] = useState<any>({}); //港のデータ
-  const [pcCodes, setPcCodes] = useState<any>({}); //都道府県データ
+  const [data, setData] = useState<TideData | null>(null);
+const [pchc, setPchc] = useState<Record<string, Record<string, string>>>({});
+const [pcCodes, setPcCodes] = useState<Record<string, string>>({});
   const [calendar, setCalendar] = useState<{[key:string]:number[]}>({}); //カレンダーデータ
 
   useEffect(() => {
