@@ -1,6 +1,7 @@
 "use client";
 
 import LeafletMap from "@/components/selectMap";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 // 方角に変換（0〜360° → 北・北東など）
@@ -72,6 +73,7 @@ export default function Page() {
           <p>🧭 風向: {wind.direction}</p>
         </div>
       )}
+      <Link className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded shadow"href="/">ホーム画面に戻る</Link>
     </main>
   );
 }
